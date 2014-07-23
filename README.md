@@ -1,4 +1,4 @@
-getpost
+getpost [![Build Status](https://travis-ci.org/sontags/getpost.svg?branch=master)](https://travis-ci.org/sontags/getpost)
 =======
 
 getpost is a simple webserver that captures HTTP POST requests. 
