@@ -15,6 +15,8 @@ The Go way (install in GOPATH/bin):
 go get github.com/sontags/getpost
 ```
 
+Or just head over to [Gobuild.oi](http://gobuild.io/download/github.com/sontags/imgbrwsr) and download the binary
+
 ### Usage
 
 ```
