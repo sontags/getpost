@@ -1,12 +1,11 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
-	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,27 +23,25 @@ func main() {
 
 	host := address + ":" + port
 
+	stack := &RequestStack{}
+
 	g := gin.Default()
 
-	var lastPostRequest *http.Request
-	var lastPostBody string
-
-	g.GET("/request", func(c *gin.Context) {
-		text, err := json.Marshal(lastPostRequest)
-		if err != nil {
-			c.String(500, err.Error())
-		} else {
-			c.String(200, string(text))
+	g.GET("/", func(c *gin.Context) {
+		var out string
+		for i, req := range *stack {
+			out += strconv.Itoa(i) + ": " + req.Details.URL.Path + "\n"
 		}
-	})
-
-	g.GET("/body", func(c *gin.Context) {
-		c.String(200, lastPostBody)
+		c.String(200, out)
 	})
 
 	g.POST("/*path", func(c *gin.Context) {
-		lastPostRequest = c.Request
-		lastPostBody, _ = getBodyAsString(c.Request.Body)
+		body, _ := getBodyAsString(c.Request.Body)
+		r := &Request{
+			Details: c.Request,
+			Body:    body,
+		}
+		stack.add(r)
 		c.String(200, "ok")
 	})
 
