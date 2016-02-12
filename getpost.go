@@ -29,8 +29,8 @@ func main() {
 	var lastPostRequest *http.Request
 	var lastPostBody string
 
-	g.GET("/request", func(c *gin.Context) {
-		text, err := json.Marshal(lastPostRequest)
+	g.GET("/header", func(c *gin.Context) {
+		text, err := json.Marshal(lastPostRequest.Header)
 		if err != nil {
 			c.String(500, err.Error())
 		} else {
